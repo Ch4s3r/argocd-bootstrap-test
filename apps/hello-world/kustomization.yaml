@@ -6,4 +6,4 @@ resources:
   - service.yaml
 images:
   - name: hashicorp/http-echo
-    newTag: "0.2.3"
+    newTag: "1.0.0"
