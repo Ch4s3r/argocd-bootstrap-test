@@ -4,3 +4,6 @@ resources:
   - namespace.yaml
   - deployment.yaml
   - service.yaml
+images:
+  - name: hashicorp/http-echo
+    newTag: "0.2.3"
