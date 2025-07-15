@@ -6,6 +6,6 @@ resources:
 helmCharts:
   - name: nginx
     repo: https://charts.bitnami.com/bitnami
-    version: 15.14.0
+    version: 21.0.6
     releaseName: hello-world-nginx
     namespace: hello-world
