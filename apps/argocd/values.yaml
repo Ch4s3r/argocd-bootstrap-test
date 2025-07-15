@@ -1,0 +1,10 @@
+configs:
+  cm:
+    kustomize.buildOptions: "--enable-helm"
+ingress:
+  enabled: true
+  hosts:
+    - argocd.localhost
+  paths:
+    - /
+  pathType: ImplementationSpecific
