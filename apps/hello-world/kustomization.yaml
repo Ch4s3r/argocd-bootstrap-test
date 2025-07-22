@@ -9,4 +9,3 @@ helmCharts:
     version: 6.5.4
     releaseName: podinfo
     includeCRDs: false
-    namespace: hello-world
