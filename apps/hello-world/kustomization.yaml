@@ -6,6 +6,6 @@ resources:
 helmCharts:
   - name: podinfo
     repo: https://stefanprodan.github.io/podinfo
-    version: 6.5.4
+    version: 6.9.1
     releaseName: podinfo
     includeCRDs: false
