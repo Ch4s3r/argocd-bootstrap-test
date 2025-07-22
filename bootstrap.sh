@@ -1,1 +1,0 @@
-kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -
