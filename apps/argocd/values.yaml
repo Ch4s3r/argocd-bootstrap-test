@@ -2,7 +2,7 @@ configs:
   cm:
     kustomize.buildOptions: "--enable-helm"
     resource.customizations: |
-      "*/":
+      "*/*":
         health.lua: |
           hs = {}
           hs.status = "Healthy"
