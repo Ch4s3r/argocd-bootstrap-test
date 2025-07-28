@@ -2,12 +2,14 @@
     "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.15.0/.schema/devbox.schema.json",
     "packages": [
       "kubectl",
-      "kubectl-helm"
+      "kubernetes-helm"
     ],
     "shell": {
       "scripts": {
         "bootstrap": [
-          "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -"
+            "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -",
+            "kubectl wait --for=condition=available --timeout=120s -n argocd deploy/argocd-server",
+            "kubectl apply -f applicationset.yaml"
         ]
       }
     }
