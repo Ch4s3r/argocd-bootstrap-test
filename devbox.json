@@ -7,9 +7,7 @@
     "shell": {
       "scripts": {
         "bootstrap": [
-            "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -",
-            "kubectl wait --for=condition=available --timeout=120s -n argocd deploy/argocd-server",
-            "kubectl apply -f applicationset.yaml"
+            "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -"
         ]
       }
     }
