@@ -30,6 +30,17 @@ configs:
                 helmfile -n "$ARGOCD_APP_NAMESPACE" template --include-crds -q
               fi
         lockRepo: false
+      helmfile-list:
+        allowConcurrency: true
+        discover:
+          fileName: helmfile.yaml
+        generate:
+          command:
+            - bash
+            - "-c"
+            - |
+              helmfile list --output json | jq 'map({name: .name, namespace: .namespace})'
+        lockRepo: false
 repoServer:
   # Additional containers like a sidecar for CMP plugins
   extraContainers:
