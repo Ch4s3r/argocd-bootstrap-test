@@ -46,7 +46,7 @@ repoServer:
         runAsUser: 999
       volumeMounts:
         - mountPath: /var/run/argocd
-          name: var-run-argocd
+          name: var-files
         - mountPath: /tmp
           name: tmp-volume
 
