@@ -6,7 +6,7 @@
     "git",
     "curlHTTP3",
     "kubernetes-helm@latest",
-    "kubernetes-helmPlugins.helm-diff@latest",
+    "kubernetes-helmPlugins.helm-diff@3.12.4",
     "kubernetes-helmPlugins.helm-secrets@latest",
     "kubernetes-helmPlugins.helm-s3@latest",
     "kubernetes-helmPlugins.helm-git@latest"
