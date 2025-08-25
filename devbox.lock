@@ -3,11 +3,37 @@
   "packages": {
     "curlHTTP3": {
       "resolved": "github:NixOS/nixpkgs/6b0b1559e918d4f7d1df398ee1d33aeac586d4d6#curlHTTP3",
-      "source": "nixpkg"
+      "source": "nixpkg",
+      "systems": {
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "bin",
+              "path": "/tmp/containerbase/cache/nix/store/dcpr5rpgnz0vm7k0ln76m6y7gvj7dwj7-curl-8.14.1-bin",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/tmp/containerbase/cache/nix/store/k9w9w0xd4yqjmdgp2y678ccrknh0g2ni-curl-8.14.1-man",
+              "default": true
+            }
+          ]
+        }
+      }
     },
     "git": {
       "resolved": "github:NixOS/nixpkgs/6b0b1559e918d4f7d1df398ee1d33aeac586d4d6#git",
-      "source": "nixpkg"
+      "source": "nixpkg",
+      "systems": {
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "path": "/tmp/containerbase/cache/nix/store/a3gl62hqv5fk639ll75221gkjj8xm8lh-git-2.50.1",
+              "default": true
+            }
+          ]
+        }
+      }
     },
     "github:NixOS/nixpkgs/nixpkgs-unstable": {
       "last_modified": "2025-08-24T11:35:28Z",
@@ -253,7 +279,7 @@
         }
       }
     },
-    "kubernetes-helmPlugins.helm-secrets@latest": {
+    "kubernetes-helmPlugins.helm-secrets@4.6.5": {
       "last_modified": "2025-07-28T17:09:23Z",
       "resolved": "github:NixOS/nixpkgs/648f70160c03151bc2121d179291337ad6bc564b#kubernetes-helmPlugins.helm-secrets",
       "source": "devbox-search",

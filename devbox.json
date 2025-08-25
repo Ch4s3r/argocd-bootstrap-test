@@ -7,7 +7,7 @@
     "curlHTTP3",
     "kubernetes-helm@latest",
     "kubernetes-helmPlugins.helm-diff@latest",
-    "kubernetes-helmPlugins.helm-secrets@latest",
+    "kubernetes-helmPlugins.helm-secrets@4.6.5",
     "kubernetes-helmPlugins.helm-s3@latest",
     "kubernetes-helmPlugins.helm-git@latest"
   ],
