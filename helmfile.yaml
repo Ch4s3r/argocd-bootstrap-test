@@ -8,4 +8,4 @@ releases:
   chart: podinfo/podinfo
 - name: podinfo2
   namespace: podinfo2
-  chart: podinfo/podinfo
+  chart: podinfo/podinfo0
