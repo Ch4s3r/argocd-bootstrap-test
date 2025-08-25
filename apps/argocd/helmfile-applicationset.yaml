@@ -11,9 +11,6 @@ spec:
       input:
         parameters:
           command: helmfile-list
-          repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-          revision: HEAD
-          path: .
   template:
     metadata:
       name: 'helmfile-{{name}}'
