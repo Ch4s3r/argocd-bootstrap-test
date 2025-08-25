@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.15.0/.schema/devbox.schema.json",
   "packages": [
     "uutils-coreutils-noprefix@latest",
-    "helmfile@latest",
+    "helmfile@0.171.0",
     "git",
     "curlHTTP3",
     "kubernetes-helm@latest",
