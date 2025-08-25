@@ -1,16 +1,30 @@
 {
     "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.15.0/.schema/devbox.schema.json",
     "packages": [
-      "kubectl",
-      "kubernetes-helm"
+      "uutils-coreutils-noprefix@latest",
+      "helmfile@latest",
+      "git",
+      "curlHTTP3",
+      "kubernetes-helm@latest",
+      "kubernetes-helmPlugins.helm-diff@latest",
+      "kubernetes-helmPlugins.helm-secrets@latest",
+      "kubernetes-helmPlugins.helm-s3@latest",
+      "kubernetes-helmPlugins.helm-git@latest"
     ],
     "shell": {
       "scripts": {
+        "bootstrap-helmfile": [
+            "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -",
+            "kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd",
+        ],
         "bootstrap": [
             "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -",
             "kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd",
             "kubectl apply -f apps/argocd/applicationset.yaml",
             "kubectl wait --for=jsonpath='{.metadata.name}'=all-apps applicationset/all-apps -n argocd"
+        ],
+        "template": [
+          "helmfile template"
         ]
       }
     }

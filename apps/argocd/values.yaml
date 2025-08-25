@@ -10,3 +10,69 @@ configs:
           return hs
   params:
     server.insecure: true
+  cmp:
+    create: true
+    plugins:
+      helmfile:
+        allowConcurrency: true
+        discover:
+          fileName: helmfile.yaml
+        generate:
+          command:
+            - bash
+            - "-c"
+            - |
+              if [[ -v ENV_NAME ]]; then
+                helmfile -n "$ARGOCD_APP_NAMESPACE" -e $ENV_NAME template --include-crds -q
+              elif [[ -v ARGOCD_ENV_ENV_NAME ]]; then
+                helmfile -n "$ARGOCD_APP_NAMESPACE" -e "$ARGOCD_ENV_ENV_NAME" template --include-crds -q
+              else
+                helmfile -n "$ARGOCD_APP_NAMESPACE" template --include-crds -q
+              fi
+        lockRepo: false
+repoServer:
+  # Additional containers like a sidecar for CMP plugins
+  extraContainers:
+    - name: helmfile
+      image: ghcr.io/helmfile/helmfile:v0.157.0
+      command: ["/var/run/argocd/argocd-cmp-server"]
+      env:
+        - name: HELM_CACHE_HOME
+          value: /tmp/helm/cache
+        - name: HELM_CONFIG_HOME
+          value: /tmp/helm/config
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-run-argocd
+        - mountPath: /tmp
+          name: tmp-volume
+
+  # Additional volumes to mount
+  volumes:
+    - name: var-run-argocd
+      emptyDir: {}
+    - name: tmp-volume
+      emptyDir: {}
+
+  # Environment variables here will be added to the main repo-server container
+  env:
+    - name: ENV_NAME
+      value: production
+
+  # Command line args to pass to argocd-repo-server binary
+  commandArgs:
+    - "--loglevel"
+    - "debug"
+    - "--disable-tls"
+
+  # Resources, affinity, nodeSelector, etc. can also be configured here
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi

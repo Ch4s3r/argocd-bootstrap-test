@@ -1,0 +1,11 @@
+repositories:
+ - name: podinfo
+   url: https://stefanprodan.github.io/podinfo
+
+releases:
+- name: podinfo
+  namespace: podinfo
+  chart: podinfo/podinfo
+- name: podinfo2
+  namespace: podinfo2
+  chart: podinfo/podinfo
