@@ -52,8 +52,9 @@ repoServer:
 
   # Additional volumes to mount
   volumes:
-    - name: var-run-argocd
-      emptyDir: {}
+    - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+      subPath: helmfile.yaml
+      name: argocd-cmp-cm
     - name: tmp-volume
       emptyDir: {}
 
