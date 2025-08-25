@@ -8,7 +8,7 @@
     "kubernetes-helm@latest",
     "kubernetes-helmPlugins.helm-diff@latest",
     "kubernetes-helmPlugins.helm-secrets@latest",
-    "kubernetes-helmPlugins.helm-s3@latest",
+    "kubernetes-helmPlugins.helm-s3@0.17.0",
     "kubernetes-helmPlugins.helm-git@latest"
   ],
   "shell": {
