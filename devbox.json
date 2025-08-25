@@ -16,7 +16,7 @@
       "bootstrap-helmfile": [
         "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -",
         "kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd",
-        "kubectl apply -f application.yaml"
+        "kubectl apply -f apps/argocd/helmfile-applicationset.yaml"
       ],
       "bootstrap": [
         "kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -",
