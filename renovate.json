@@ -2,18 +2,5 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
-  ],
-  "kustomize": {
-    "enabled": true
-  },
-  "helm-values": {
-    "enabled": true
-  },
-  "packageRules": [
-    {
-      "matchManagers": ["kustomize"],
-      "matchDatasources": ["helm"],
-      "enabled": true
-    }
   ]
 }
