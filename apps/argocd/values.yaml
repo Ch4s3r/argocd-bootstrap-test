@@ -51,7 +51,7 @@ repoServer:
   # Additional containers like a sidecar for CMP plugins
   extraContainers:
     - name: helmfile
-      image: ghcr.io/helmfile/helmfile:v0.157.0
+      image: ghcr.io/helmfile/helmfile:v1.1.7
       command: ["/var/run/argocd/argocd-cmp-server"]
       env:
         - name: HELM_CACHE_HOME
