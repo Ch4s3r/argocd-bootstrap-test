@@ -15,7 +15,7 @@ spec:
     metadata:
       name: '{{path[3]}}-{{path[1]}}'
     spec:
-      project: default
+      project: '{{path[3]}}'
       source:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
         targetRevision: HEAD
