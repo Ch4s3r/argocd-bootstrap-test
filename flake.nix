@@ -51,7 +51,22 @@
             kubectl wait --for=jsonpath='{.metadata.name}'=all-apps applicationset/all-apps -n prod-argocd --timeout=60s
             
             echo "Bootstrap complete! Applications will be synced automatically."
-            echo "Get admin password: kubectl get secret argocd-initial-admin-secret -n prod-argocd -o jsonpath=\"{.data.password}\" | base64 -d"
+            echo ""
+            echo "Getting ArgoCD admin password..."
+            PASSWORD=$(kubectl get secret argocd-initial-admin-secret -n prod-argocd -o jsonpath="{.data.password}" | base64 -d)
+            echo "$PASSWORD" | pbcopy
+            echo "✓ Password copied to clipboard!"
+            echo ""
+            echo "Opening browser..."
+            open https://localhost:8080
+            echo ""
+            echo "Starting port-forward to ArgoCD UI..."
+            echo "Access ArgoCD at: https://localhost:8080"
+            echo "Username: admin"
+            echo "Password: (already in clipboard)"
+            echo "Press Ctrl+C to stop port-forwarding"
+            echo ""
+            kubectl port-forward svc/argocd-server -n prod-argocd 8080:443
           '';
         };
       in
