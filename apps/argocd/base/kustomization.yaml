@@ -1,7 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - namespace.yaml
   - ingress.yaml
   - applicationset.yaml
 helmCharts:
@@ -9,5 +8,4 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     version: 8.1.3
     releaseName: argocd
-    namespace: argocd
     valuesFile: values.yaml
