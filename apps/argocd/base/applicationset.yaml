@@ -4,27 +4,16 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   name: all-apps
-  namespace: argocd
 spec:
   generators:
-    - matrix:
-        generators:
-          - git:
-              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-              revision: HEAD
-              directories:
-                - path: apps/*/overlays/*
-          - list:
-              elements:
-                - env: prod
-                - env: staging
-        template:
-          metadata: {}
-          spec: {}
+    - git:
+        repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
+        revision: HEAD
+        directories:
+          - path: apps/*/overlays/*
   template:
     metadata:
-      name: '{{path[1]}}-{{path[3]}}'
-      namespace: argocd
+      name: '{{path[3]}}-{{path[1]}}'
     spec:
       project: default
       source:
@@ -32,10 +21,10 @@ spec:
         targetRevision: HEAD
         path: '{{path}}'
         kustomize:
-          namespace: '{{path[1]}}-{{path[3]}}'
+          namespace: '{{path[3]}}-{{path[1]}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path[1]}}-{{path[3]}}'
+        namespace: '{{path[3]}}-{{path[1]}}'
       syncPolicy:
         automated:
           prune: true
