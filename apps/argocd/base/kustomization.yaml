@@ -4,6 +4,7 @@ resources:
   - ingress.yaml
   - appprojects.yaml
   - applicationset.yaml
+  - configmap.yaml
 helmCharts:
   - name: argo-cd
     repo: https://argoproj.github.io/argo-helm

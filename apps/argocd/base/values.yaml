@@ -1,27 +1,46 @@
 configs:
   cm:
-    kustomize.buildOptions: "--enable-helm --enable-alpha-plugins"
+    kustomize.buildOptions: "--enable-helm --enable-alpha-plugins --enable-exec"
 
 repoServer:
+  initContainers:
+    - name: install-ksops
+      image: viaductoss/ksops:v4.4.0
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          # Copy binaries
+          cp /usr/local/bin/ksops /custom-tools/
+          cp /usr/local/bin/sops /custom-tools/
+          cp /usr/bin/age /custom-tools/
+          
+          # Setup kustomize plugin directory
+          mkdir -p /custom-tools/kustomize/plugin/viaduct.ai/v1/ksops
+          cp /usr/local/bin/ksops /custom-tools/kustomize/plugin/viaduct.ai/v1/ksops/ksops
+      volumeMounts:
+        - name: custom-tools
+          mountPath: /custom-tools
+  
   # Mount the age key for SOPS decryption
   volumes:
     - name: sops-age
       secret:
         secretName: sops-age
+    - name: custom-tools
+      emptyDir: {}
+  
   volumeMounts:
     - name: sops-age
       mountPath: /sops-age
       readOnly: true
+    - name: custom-tools
+      mountPath: /usr/local/bin
   
-  # Set environment variable for SOPS
+  # Set environment variables for SOPS and kustomize plugins
   env:
     - name: SOPS_AGE_KEY_FILE
       value: /sops-age/keys.txt
-    - name: HELM_SECRETS_SOPS_PATH
-      value: /nix/store/*/bin/sops
-    - name: HELM_SECRETS_VALS_PATH
-      value: /nix/store/*/bin/vals
-    - name: HELM_SECRETS_KUBECTL_PATH
-      value: /nix/store/*/bin/kubectl
-    - name: HELM_SECRETS_CURL_PATH
-      value: /nix/store/*/bin/curl
+    - name: XDG_CONFIG_HOME
+      value: /custom-tools
+    - name: KUSTOMIZE_PLUGIN_HOME
+      value: /custom-tools/kustomize/plugin
