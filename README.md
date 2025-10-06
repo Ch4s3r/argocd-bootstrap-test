@@ -26,9 +26,30 @@ Access at https://localhost:8080 (user: `admin`)
 
 ## How It Works
 
-Applications in `apps/*/overlays/*` are automatically discovered and deployed to `<app>-<env>` namespaces.
+Applications in `apps/*/overlays/*` are automatically discovered and deployed to `<env>-<app>` namespaces.
 
-Example: `apps/hello-world/overlays/prod` → `hello-world-prod` namespace
+Example: `apps/hello-world/overlays/prod` → `prod-hello-world` namespace
+
+## Secrets Management with SOPS
+
+This setup includes [SOPS](https://github.com/mozilla/sops) with [age](https://github.com/FiloSottile/age) encryption for secure secret management.
+
+The bootstrap script automatically:
+- Generates an age encryption key
+- Configures ArgoCD to decrypt secrets
+- Updates `.sops.yaml` with your public key
+
+See [docs/SOPS.md](docs/SOPS.md) for detailed documentation.
+
+### Quick Example
+
+```bash
+# Encrypt a secret
+sops -e -i apps/my-app/base/secret.enc.yaml
+
+# Edit encrypted secret
+sops apps/my-app/base/secret.enc.yaml
+```
 
 ## Add New Application
 

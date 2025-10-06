@@ -1,3 +1,27 @@
 configs:
   cm:
-    kustomize.buildOptions: "--enable-helm"
+    kustomize.buildOptions: "--enable-helm --enable-alpha-plugins"
+
+repoServer:
+  # Mount the age key for SOPS decryption
+  volumes:
+    - name: sops-age
+      secret:
+        secretName: sops-age
+  volumeMounts:
+    - name: sops-age
+      mountPath: /sops-age
+      readOnly: true
+  
+  # Set environment variable for SOPS
+  env:
+    - name: SOPS_AGE_KEY_FILE
+      value: /sops-age/keys.txt
+    - name: HELM_SECRETS_SOPS_PATH
+      value: /nix/store/*/bin/sops
+    - name: HELM_SECRETS_VALS_PATH
+      value: /nix/store/*/bin/vals
+    - name: HELM_SECRETS_KUBECTL_PATH
+      value: /nix/store/*/bin/kubectl
+    - name: HELM_SECRETS_CURL_PATH
+      value: /nix/store/*/bin/curl

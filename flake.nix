@@ -21,10 +21,16 @@
 
         bootstrap = pkgs.writeShellApplication {
           name = "bootstrap";
-          runtimeInputs = with pkgs; [ yq-go ];
+          runtimeInputs = with pkgs; [ yq-go age sops ];
           text = ''
             echo "Creating prod-argocd namespace..."
             kubectl create namespace prod-argocd --dry-run=client -o yaml | kubectl apply -f -
+            
+            echo "Creating age secret for ArgoCD..."
+            cat "$HOME/Library/Application Support/sops/age/keys.txt" | kubectl create secret generic sops-age \
+              --from-file=keys.txt=/dev/stdin \
+              --namespace=prod-argocd \
+              --dry-run=client -o yaml | kubectl apply -f -
             
             echo "Installing ArgoCD with namespace override..."
             TMPDIR=$(mktemp -d)
@@ -87,11 +93,17 @@
             kubernetes-helmPlugins.helm-secrets
             kubernetes-helmPlugins.helm-s3
             kubernetes-helmPlugins.helm-git
+            age
+            sops
             bootstrap
           ];
           shellHook = ''
             echo "Bootstrap scripts available:"
-            echo "  bootstrap - Bootstrap ArgoCD with ApplicationSet"
+            echo "  bootstrap - Bootstrap ArgoCD with ApplicationSet (includes age key setup)"
+            echo ""
+            echo "SOPS/age tools available:"
+            echo "  age-keygen - Generate age keys"
+            echo "  sops - Edit encrypted files"
           '';
         };
       }
