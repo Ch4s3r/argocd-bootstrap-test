@@ -27,10 +27,10 @@
             kubectl create namespace prod-argocd --dry-run=client -o yaml | kubectl apply -f -
             
             echo "Creating age secret for ArgoCD..."
-            cat "$HOME/Library/Application Support/sops/age/keys.txt" | kubectl create secret generic sops-age \
+            kubectl create secret generic sops-age \
               --from-file=keys.txt=/dev/stdin \
               --namespace=prod-argocd \
-              --dry-run=client -o yaml | kubectl apply -f -
+              --dry-run=client -o yaml < "$HOME/Library/Application Support/sops/age/keys.txt" | kubectl apply -f -
             
             echo "Installing ArgoCD with namespace override..."
             TMPDIR=$(mktemp -d)
