@@ -2,9 +2,40 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base
+  - ingress.yaml
+  - ingress-config.yaml
 generators:
   - secret-generator.yaml
 
 images:
   - name: ghcr.io/stefanprodan/podinfo
     newTag: 6.5.3
+
+replacements:
+  # Replace the host with the ingress name + base domain
+  - source:
+      kind: Ingress
+      name: podinfo
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: Ingress
+          name: podinfo
+        fieldPaths:
+          - spec.rules.0.host
+        options:
+          delimiter: '.'
+          index: 0
+  - source:
+      kind: ConfigMap
+      name: ingress-config
+      fieldPath: data.baseDomain
+    targets:
+      - select:
+          kind: Ingress
+          name: podinfo
+        fieldPaths:
+          - spec.rules.0.host
+        options:
+          delimiter: '.'
+          index: 1
