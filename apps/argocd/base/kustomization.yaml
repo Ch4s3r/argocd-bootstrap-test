@@ -11,3 +11,7 @@ helmCharts:
     releaseName: argocd
     valuesFile: values.yaml
     includeCRDs: true
+
+images:
+  - name: viaductoss/ksops
+    newTag: v4.3.2
