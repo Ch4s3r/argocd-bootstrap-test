@@ -4,3 +4,11 @@ resources:
   - ../../base
 generators:
   - secret-generator.yaml
+
+patches:
+  - target:
+      kind: Kustomization
+    patch: |-
+      - op: replace
+        path: /helmCharts/0/version
+        value: 6.5.3
