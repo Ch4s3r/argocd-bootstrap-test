@@ -5,10 +5,6 @@ resources:
 generators:
   - secret-generator.yaml
 
-patches:
-  - target:
-      kind: Kustomization
-    patch: |-
-      - op: replace
-        path: /helmCharts/0/version
-        value: 6.5.3
+images:
+  - name: ghcr.io/stefanprodan/podinfo
+    newTag: 6.5.3
