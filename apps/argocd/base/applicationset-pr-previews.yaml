@@ -40,11 +40,11 @@ spec:
         targetRevision: '{{head_sha}}'
         path: '{{path}}'
         kustomize:
-          namespace: 'pr-{{number}}-{{path[1]}}'
+          namespace: '{{path[3]}}-{{path[1]}}'
           namePrefix: 'pr-{{number}}-'
       destination:
         server: https://kubernetes.default.svc
-        namespace: 'pr-{{number}}-{{path[1]}}'
+        namespace: '{{path[3]}}-{{path[1]}}'
       syncPolicy:
         automated:
           prune: true
