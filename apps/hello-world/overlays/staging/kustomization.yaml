@@ -23,6 +23,7 @@ replacements:
           name: podinfo
         fieldPaths:
           - spec.rules.0.host
+          - spec.rules.0.http.paths.0.backend.service.name
         options:
           delimiter: '.'
           index: 0
