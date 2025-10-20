@@ -51,10 +51,22 @@ sops -e -i apps/my-app/base/secret.enc.yaml
 sops apps/my-app/base/secret.enc.yaml
 ```
 
+## PR Preview Environments
+
+Every PR automatically gets isolated preview environments for all apps with `overlays/staging/`.
+
+- Each PR creates: `pr-{number}-{app-name}` applications
+- Deploys to: `pr-{number}-{app-name}` namespaces  
+- Auto-syncs on every commit
+- Auto-deleted when PR closes
+
+See [docs/PR-PREVIEWS.md](docs/PR-PREVIEWS.md) for details.
+
 ## Add New Application
 
 ```bash
-mkdir -p apps/my-app/{base,overlays/prod}
+mkdir -p apps/my-app/{base,overlays/prod,overlays/staging}
 # Create kustomization.yaml files
 # Commit and push - done!
+# PRs will automatically create preview environments
 ```

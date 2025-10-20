@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pr-previews
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  generators:
+    # Combine PR generator with directory discovery
+    - matrix:
+        generators:
+          - pullRequest:
+              github:
+                owner: Ch4s3r
+                repo: argocd-bootstrap-test
+                # tokenRef:
+                #   secretName: github-token
+                #   key: token
+              requeueAfterSeconds: 60
+          - git:
+              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
+              revision: '{{head_sha}}'
+              directories:
+                - path: 'apps/*/overlays/staging'
+  template:
+    metadata:
+      name: 'pr-{{number}}-{{path[1]}}'
+      labels:
+        preview: "true"
+        pr-number: "{{number}}"
+        app-name: "{{path[1]}}"
+      annotations:
+        argocd.argoproj.io/sync-wave: "1"
+        notifications.argoproj.io/subscribe.on-sync-succeeded.github: ""
+        notifications.argoproj.io/subscribe.on-health-degraded.github: ""
+    spec:
+      project: staging
+      source:
+        repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
+        targetRevision: '{{head_sha}}'
+        path: '{{path}}'
+        kustomize:
+          namespace: 'pr-{{number}}-{{path[1]}}'
+          namePrefix: 'pr-{{number}}-'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'pr-{{number}}-{{path[1]}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+      # Automatically delete when PR is closed/merged
+      info:
+        - name: 'PR'
+          value: 'https://github.com/Ch4s3r/argocd-bootstrap-test/pull/{{number}}'
+        - name: 'Branch'
+          value: '{{branch}}'
+        - name: 'Application'
+          value: '{{path[1]}}'
