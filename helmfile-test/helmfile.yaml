@@ -6,9 +6,9 @@ releases:
   - name: podinfo
     namespace: default
     chart: podinfo/podinfo
-    installed: {{ env `HELMFILE_RELEASE` | contains "podinfo" | bool }}
+    installed: {{ eq (env "HELMFILE_RELEASE") "podinfo" }}
   - name: podinfo2
     namespace: default
     chart: podinfo/podinfo
-    installed: {{ env `HELMFILE_RELEASE` | contains "podinfo2" | bool }}
+    installed: {{ eq (env "HELMFILE_RELEASE") "podinfo2" }}
 
