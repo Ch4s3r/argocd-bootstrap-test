@@ -1,0 +1,9 @@
+spec:
+  source:
+    path: helmfile-test
+    plugin:
+      name: helmfile
+      env:
+      - name: HELMFILE_SELECTOR
+        value: podinfo2
+
