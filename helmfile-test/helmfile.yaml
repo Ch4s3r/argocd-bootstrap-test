@@ -3,9 +3,11 @@ repositories:
    url: https://stefanprodan.github.io/podinfo
 
 releases:
-- name: podinfo
-  namespace: default
-  chart: podinfo/podinfo
-- name: podinfo2
-  namespace: default
-  chart: podinfo/podinfo
+  - name: podinfo
+    namespace: default
+    chart: podinfo/podinfo
+    installed: "{{ env `HELMFILE_RELEASE` | contains `podinfo` }}"
+  - name: podinfo2
+    namespace: default
+    chart: podinfo/podinfo
+    installed: "{{ env `HELMFILE_RELEASE` | contains `podinfo2` }}"
