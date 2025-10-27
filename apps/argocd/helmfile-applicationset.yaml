@@ -23,9 +23,9 @@ spec:
         path: .
         plugin:
           name: helmfile
-          env:
-          - name: HELMFILE_RELEASE
-            value: '{{name}}'
+          # env:
+          # - name: HELMFILE_RELEASE
+          #   value: '{{name}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
