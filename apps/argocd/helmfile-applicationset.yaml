@@ -8,9 +8,9 @@ spec:
   - plugin:
       configMapRef:
         name: argocd-cmp-cm
-      # input:
-      #   parameters:
-      #     command: helmfile-list
+      input:
+        parameters:
+          command: helmfile
   template:
     metadata:
       name: 'helmfile-{{name}}'

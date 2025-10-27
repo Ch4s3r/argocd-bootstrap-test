@@ -37,17 +37,6 @@ configs:
               # eval "$HELMFILE_CMD template --include-crds -q"
               eval "helmfile template --include-crds -q"
         lockRepo: false
-      helmfile-list:
-        allowConcurrency: true
-        discover:
-          fileName: helmfile.yaml
-        generate:
-          command:
-            - bash
-            - "-c"
-            - |
-              helmfile list --output json | jq 'map({name: .name, namespace: .namespace})'
-        lockRepo: false
 repoServer:
   # Additional containers like a sidecar for CMP plugins
   extraContainers:
