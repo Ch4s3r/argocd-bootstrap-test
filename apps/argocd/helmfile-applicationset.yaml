@@ -8,9 +8,9 @@ spec:
   - plugin:
       configMapRef:
         name: argocd-cmp-cm
-      input:
-        parameters:
-          command: helmfile-list
+      # input:
+      #   parameters:
+      #     command: helmfile-list
   template:
     metadata:
       name: 'helmfile-{{name}}'
@@ -19,7 +19,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-        targetRevision: HEAD
+        targetRevision: helmfile
         path: .
         plugin:
           name: helmfile
