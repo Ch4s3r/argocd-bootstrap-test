@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
     targetRevision: helmfile
-    path: .
+    path: helmfile-test
     plugin: {}
   destination:
     server: https://kubernetes.default.svc

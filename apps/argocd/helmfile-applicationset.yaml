@@ -6,11 +6,7 @@ metadata:
 spec:
   generators:
   - list:
-      elements:
-      - name: podinfo
-        namespace: podinfo
-      - name: podinfo2
-        namespace: podinfo2
+      elements: []
   template:
     metadata:
       name: 'helmfile-{{name}}'
