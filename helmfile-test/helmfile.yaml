@@ -4,8 +4,8 @@ repositories:
 
 releases:
 - name: podinfo
-  namespace: podinfo
+  namespace: default
   chart: podinfo/podinfo
 - name: podinfo2
-  namespace: podinfo
+  namespace: default
   chart: podinfo/podinfo
