@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-    targetRevision: HEAD
+    targetRevision: helmfile
     path: .
     plugin: {}
   destination:
