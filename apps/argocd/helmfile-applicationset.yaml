@@ -5,12 +5,12 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - plugin:
-      configMapRef:
-        name: argocd-cmp-cm
-      input:
-        parameters:
-          command: helmfile
+  - list:
+      elements:
+      - name: podinfo
+        namespace: podinfo
+      - name: podinfo2
+        namespace: podinfo2
   template:
     metadata:
       name: 'helmfile-{{name}}'
@@ -20,12 +20,12 @@ spec:
       source:
         repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
         targetRevision: helmfile
-        path: .
+        path: helmfile-test
         plugin:
           name: helmfile
-          # env:
-          # - name: HELMFILE_RELEASE
-          #   value: '{{name}}'
+          env:
+          - name: HELMFILE_RELEASE
+            value: '{{name}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
