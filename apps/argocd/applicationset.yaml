@@ -9,7 +9,7 @@ spec:
   generators:
     - git:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        revision: HEAD
+        revision: helmfile
         directories:
           - path: apps/*
   template:
@@ -20,7 +20,7 @@ spec:
       project: default
       source:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        targetRevision: HEAD
+        targetRevision: helmfile
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
