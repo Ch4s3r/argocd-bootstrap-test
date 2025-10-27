@@ -7,7 +7,7 @@ spec:
   generators:
   - list:
       elements:
-        - name: podinfo
+        - name: podinfo1
           namespace: default
         - name: podinfo2
           namespace: default 
@@ -25,7 +25,7 @@ spec:
           name: helmfile
           env:
           - name: HELMFILE_RELEASE
-            value: 'name={{name}}'
+            value: '{{name}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'

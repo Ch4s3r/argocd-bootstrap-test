@@ -3,7 +3,7 @@ repositories:
    url: https://stefanprodan.github.io/podinfo
 
 releases:
-- name: podinfo
+- name: podinfo1
   namespace: default
   chart: podinfo/podinfo
 - name: podinfo2
