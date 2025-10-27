@@ -39,7 +39,7 @@
       in
       {
         packages = {
-          inherit bootstrap-helmfile bootstrap template;
+          inherit bootstrap template;
         };
 
         devShells.default = pkgs.mkShell {
