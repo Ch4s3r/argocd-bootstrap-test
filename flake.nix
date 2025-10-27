@@ -24,7 +24,7 @@
           text = ''
             kubectl kustomize --enable-helm apps/argocd | kubectl apply -f -
             kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
-            kubectl apply -f apps/argocd/applicationset.yaml
+            kubectl apply -f apps/argocd/helmfile-applicationset.yaml
             kubectl wait --for=jsonpath='{.metadata.name}'=all-apps applicationset/all-apps -n argocd
           '';
         };
