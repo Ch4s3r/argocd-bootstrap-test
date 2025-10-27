@@ -25,7 +25,7 @@ spec:
           name: helmfile
           env:
           - name: HELMFILE_RELEASE
-            value: '{{name}}'
+            value: 'name={{name}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
