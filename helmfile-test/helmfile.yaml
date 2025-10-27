@@ -4,8 +4,8 @@ repositories:
 
 releases:
 - name: podinfo1
-  namespace: default
+  namespace: default 
   chart: podinfo/podinfo
-- name: podinfo2
-  namespace: default
-  chart: podinfo/podinfo
+- name: bitnami
+  url: https://charts.bitnami.com/bitnami
+- name: grafana
