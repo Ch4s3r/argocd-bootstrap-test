@@ -1,11 +1,13 @@
 repositories:
  - name: podinfo
    url: https://stefanprodan.github.io/podinfo
+ - name: grafana
+    url: https://grafana.github.io/helm-charts
 
 releases:
 - name: podinfo1
   namespace: default 
   chart: podinfo/podinfo
-- name: bitnami
-  url: https://charts.bitnami.com/bitnami
 - name: grafana
+  namespace: default
+  chart: grafana/grafana

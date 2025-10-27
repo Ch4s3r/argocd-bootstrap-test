@@ -9,6 +9,8 @@ spec:
       elements:
         - name: podinfo1
           namespace: default
+        - name: grafana
+          namespace: default
   template:
     metadata:
       name: 'helmfile-{{name}}'
