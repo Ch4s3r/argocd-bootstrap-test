@@ -19,11 +19,7 @@ configs:
           fileName: helmfile.yaml
         generate:
           command:
-            - bash
-            - "-c"
-            - |
-              echo "Running helmfile template for release: ${HELMFILE_RELEASE}"
-              helmfile template --include-crds -q --selector name=${HELMFILE_RELEASE}
+            - helmfile template --selector name=${ARGOCD_ENV_HELMFILE_RELEASE}
         lockRepo: false
 repoServer:
   # Additional containers like a sidecar for CMP plugins
