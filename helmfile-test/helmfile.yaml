@@ -1,6 +1,6 @@
 repositories:
- - name: podinfo
-   url: https://stefanprodan.github.io/podinfo
+- name: podinfo
+  url: https://stefanprodan.github.io/podinfo
 
 releases:
 - name: podinfo

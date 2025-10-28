@@ -26,7 +26,7 @@
             kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
             # kubectl apply -f apps/argocd/helmfile-applicationset.yaml
             # kubectl wait --for=jsonpath='{.metadata.name}'=all-apps applicationset/all-apps -n argocd
-            kubectl apply -f helmfile-test/application.yaml
+            kubectl apply -f helmfile-test/applicationset.yaml
           '';
         };
 

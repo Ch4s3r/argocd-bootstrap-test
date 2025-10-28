@@ -22,20 +22,8 @@ configs:
             - bash
             - "-c"
             - |
-              # HELMFILE_CMD="helmfile -n \"$ARGOCD_APP_NAMESPACE\""
-              
-              # if [[ -v HELMFILE_RELEASE ]]; then
-              #   HELMFILE_CMD="$HELMFILE_CMD -l name=$HELMFILE_RELEASE"
-              # fi
-              
-              # if [[ -v ENV_NAME ]]; then
-              #   HELMFILE_CMD="$HELMFILE_CMD -e $ENV_NAME"
-              # elif [[ -v ARGOCD_ENV_ENV_NAME ]]; then
-              #   HELMFILE_CMD="$HELMFILE_CMD -e $ARGOCD_ENV_ENV_NAME"
-              # fi
-              
-              # eval "$HELMFILE_CMD template --include-crds -q"
-              eval "helmfile template --include-crds -q"
+              echo "Running helmfile template for release: ${HELMFILE_RELEASE}"
+              helmfile template --include-crds -q --selector name=${HELMFILE_RELEASE}
         lockRepo: false
 repoServer:
   # Additional containers like a sidecar for CMP plugins
