@@ -8,6 +8,3 @@ releases:
 - name: podinfo1
   namespace: default 
   chart: podinfo/podinfo
-- name: grafana
-  namespace: default
-  chart: grafana/grafana
