@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
     targetRevision: helmfile2
-    path: george-set-chart
+    path: helmfile-test/george-set-chart
   destination:
     server: https://kubernetes.default.svc
     namespace: default
