@@ -2,6 +2,10 @@ configs:
   cm:
     kustomize.buildOptions: "--enable-helm --enable-alpha-plugins --enable-exec"
 
+notifications:
+  enabled: true
+  argocdUrl: https://argocd.example.com  # Replace with your ArgoCD URL
+
 repoServer:
   # Define volumes
   volumes:

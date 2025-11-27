@@ -31,8 +31,8 @@ spec:
         app-name: "{{path[1]}}"
       annotations:
         argocd.argoproj.io/sync-wave: "1"
-        notifications.argoproj.io/subscribe.on-sync-succeeded.github: ""
-        notifications.argoproj.io/subscribe.on-health-degraded.github: ""
+        notifications.argoproj.io/subscribe.on-deployed.github: ""
+        notifications.argoproj.io/subscribe.on-deployment-failed.github: ""
     spec:
       project: staging
       source:
