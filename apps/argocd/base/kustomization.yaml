@@ -5,8 +5,26 @@ resources:
   - appprojects.yaml
   - applicationset.yaml
   - applicationset-pr-previews.yaml
-  - notifications-cm.yaml
-  - notifications-secret.enc.yaml
+
+patches:
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: argocd-notifications-cm
+    path: notifications-cm.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: Secret
+      name: argocd-notifications-secret
+    path: notifications-secret.enc.yaml
+
+# Prevent kustomize from adding hashes to generated names
+generatorOptions:
+  disableNameSuffixHash: true
+namePrefix: ""
+
 helmCharts:
   - name: argo-cd
     repo: https://argoproj.github.io/argo-helm

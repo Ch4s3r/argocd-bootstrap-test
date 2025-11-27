@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kubectl kustomize:*)",
+      "Bash(nix develop:*)",
+      "Bash(git --no-pager diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
