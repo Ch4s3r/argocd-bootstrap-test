@@ -16,11 +16,6 @@ spec:
                   secretName: argocd-notifications-secret
                   key: github-token
               requeueAfterSeconds: 60
-          - git:
-              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-              revision: HEAD
-              directories:
-                - path: 'apps/*/overlays/staging'
   template:
     metadata:
       name: 'pr-{{number}}-{{path[1]}}'
