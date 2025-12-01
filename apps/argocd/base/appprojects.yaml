@@ -25,6 +25,8 @@ spec:
   sourceRepos:
     - '*'
   destinations:
+    - namespace: 'staging'
+      server: https://kubernetes.default.svc
     - namespace: 'staging-*'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
