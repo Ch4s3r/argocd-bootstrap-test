@@ -6,24 +6,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    - matrix:
-        generators:
-          - pullRequest:
-              github:
-                owner: Ch4s3r
-                repo: argocd-bootstrap-test
-                tokenRef:
-                  secretName: argocd-notifications-secret
-                  key: github-token
-              requeueAfterSeconds: 60
-          - git:
-              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-              revision: '{{head_sha}}'
-              directories:
-                - path: 'apps/*/overlays/staging'
-              files:
-                - glob: 'apps/{{path[1]}}/base/**'
-                - glob: 'apps/{{path[1]}}/overlays/staging/**'
+    - pullRequest:
+        github:
+          owner: Ch4s3r
+          repo: argocd-bootstrap-test
+          tokenRef:
+            secretName: argocd-notifications-secret
+            key: github-token
+        requeueAfterSeconds: 60
   template:
     metadata:
       name: 'pr-{{number}}-{{path[1]}}'
