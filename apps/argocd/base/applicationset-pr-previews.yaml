@@ -20,7 +20,7 @@ spec:
       # Generator 2: Only files changed in PR under apps/*/overlays/staging
       - git:
           repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-          revision: "{{head_ref}}"  # Use PR branch
+          revision: "{{branch}}"  # Use PR branch
           files:
           - path: "apps/*/overlays/staging/**"
   template:
@@ -35,8 +35,8 @@ spec:
       project: staging
       source:
         repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-        targetRevision: "{{head_ref}}"
-        path: "{{index .path.segments 1}}/overlays/staging"  # Extract app name from path
+        targetRevision: "{{branch}}"
+        path: "apps/{{index .path.segments 1}}/overlays/staging"  # Extract app name from path
       destination:
         server: https://kubernetes.default.svc
         namespace: "staging"
