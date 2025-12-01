@@ -1,0 +1,21 @@
+image:
+  repository: ghcr.io/stefanprodan/podinfo
+  tag: 6.9.3
+
+# UI customization to display secret
+ui:
+  message: "Encrypted secret will be shown below"
+  color: "#34577c"
+
+# Inject secret as environment variable
+env:
+  - name: SECRET_MESSAGE
+    valueFrom:
+      secretKeyRef:
+        name: hello-world-2-secret
+        key: message
+  - name: API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: hello-world-2-secret
+        key: api_key
