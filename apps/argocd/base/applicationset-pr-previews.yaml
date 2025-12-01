@@ -6,16 +6,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    - matrix:
-        generators:
-          - pullRequest:
-              github:
-                owner: Ch4s3r
-                repo: argocd-bootstrap-test
-                tokenRef:
-                  secretName: argocd-notifications-secret
-                  key: github-token
-              requeueAfterSeconds: 60
+    - pullRequest:
+        github:
+          owner: Ch4s3r
+          repo: argocd-bootstrap-test
+          tokenRef:
+            secretName: argocd-notifications-secret
+            key: github-token
+        requeueAfterSeconds: 60
   template:
     metadata:
       name: 'pr-{{number}}-{{path[1]}}'
