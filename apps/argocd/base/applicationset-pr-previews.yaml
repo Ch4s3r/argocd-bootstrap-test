@@ -9,7 +9,7 @@ spec:
   generators:
   - merge:
       mergeKeys:
-        - number
+        - head_ref
       generators:
       # Generator 1: PR detection
       - pullRequest:
@@ -19,19 +19,15 @@ spec:
             tokenRef:
               secretName: argocd-notifications-secret
               key: github-token
-          values:
-            number: "{{number}}"
       # Generator 2: Git directories under staging overlays
       - git:
           repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-          revision: HEAD
+          revision: "{{head_ref}}"
           directories:
           - path: "apps/*/overlays/staging"
-          values:
-            number: "1"  # dummy value for merge key
   template:
     metadata:
-      name: "{{.head_ref}}-pr-{{number}}"
+      name: "{{.path.basename}}-pr-{{number}}"
       labels:
         preview: "true"
         pr-number: "{{number}}"
@@ -42,7 +38,7 @@ spec:
       source:
         repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
         targetRevision: "{{head_ref}}"
-        path: "{{.path}}"
+        path: "{{.path.path}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: "staging"
