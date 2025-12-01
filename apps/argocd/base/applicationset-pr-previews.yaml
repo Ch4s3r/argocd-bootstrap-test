@@ -6,22 +6,19 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    # Combine PR generator with directory discovery
-    - matrix:
-        generators:
-          - pullRequest:
-              github:
-                owner: Ch4s3r
-                repo: argocd-bootstrap-test
-                tokenRef:
-                  secretName: argocd-notifications-secret
-                  key: github-token
-              requeueAfterSeconds: 60
-          - git:
-              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-              revision: '{{head_sha}}'
-              directories:
-                - path: 'apps/*/overlays/staging'
+    - pullRequest:
+        github:
+          owner: Ch4s3r
+          repo: argocd-bootstrap-test
+          tokenRef:
+            secretName: argocd-notifications-secret
+            key: github-token
+        requeueAfterSeconds: 60
+        filters:
+          - paths:
+              include:
+                - 'apps/*/base/**'
+                - 'apps/*/overlays/staging/**'
   template:
     metadata:
       name: 'pr-{{number}}-{{path[1]}}'
