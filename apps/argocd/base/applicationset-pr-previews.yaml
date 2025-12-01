@@ -6,65 +6,49 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    - matrix:
-        generators:
-          - pullRequest:
-              github:
-                owner: Ch4s3r
-                repo: argocd-bootstrap-test
-                tokenRef:
-                  secretName: argocd-notifications-secret
-                  key: github-token
-              requeueAfterSeconds: 60
-          - git:
-              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-              revision: HEAD
-              directories:
-                - path: 'apps/*/overlays/staging'
-              revisions:
-                - revision: '{{head_sha}}'
-                  files:
-                    - glob: 'apps/{{path[1]}}/base/**'
-                    - glob: 'apps/{{path[1]}}/overlays/staging/**'
+    - list:
+        elements:
+          - name: hello-world
+            namespace: staging-hello-world
+            path: apps/hello-world/overlays/staging
+          - name: argocd
+            namespace: staging-argocd
+            path: apps/argocd/overlays/staging
+    - pullRequest:
+        github:
+          owner: Ch4s3r
+          repo: argocd-bootstrap-test
+          tokenRef:
+            secretName: argocd-notifications-secret
+            key: github-token
+        requeueAfterSeconds: 60
+  selector:
+    matchExpressions:
+      - key: pullrequest
+        operator: In
+        values:
+          - "true"
   template:
     metadata:
-      name: 'pr-{{number}}-{{path[1]}}'
+      name: 'pr-{{number}}-{{name}}'
       labels:
         preview: "true"
         pr-number: "{{number}}"
-        app-name: "{{path[1]}}"
+        app-name: "{{name}}"
       annotations:
         argocd.argoproj.io/sync-wave: "1"
-        notifications.argoproj.io/subscribe.on-deployed.github: ""
-        notifications.argoproj.io/subscribe.on-deployment-failed.github: ""
     spec:
       project: staging
       source:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
         targetRevision: '{{head_sha}}'
         path: '{{path}}'
-        kustomize:
-          namespace: '{{path[3]}}-{{path[1]}}'
-          namePrefix: 'pr-{{number}}-'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path[3]}}-{{path[1]}}'
+        namespace: '{{namespace}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-        retry:
-          limit: 5
-          backoff:
-            duration: 5s
-            factor: 2
-            maxDuration: 3m
-      info:
-        - name: 'PR'
-          value: 'https://github.com/Ch4s3r/argocd-bootstrap-test/pull/{{number}}'
-        - name: 'Branch'
-          value: '{{branch}}'
-        - name: 'Application'
-          value: '{{path[1]}}'
