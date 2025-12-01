@@ -5,6 +5,8 @@ configs:
 notifications:
   enabled: true
   argocdUrl: https://argocd.example.com  # Replace with your ArgoCD URL
+  secret:
+    create: false
 
 repoServer:
   # Define volumes

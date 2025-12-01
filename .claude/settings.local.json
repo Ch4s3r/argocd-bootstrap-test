@@ -5,7 +5,8 @@
       "Bash(nix develop:*)",
       "Bash(git --no-pager diff:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git rev-parse:*)"
     ],
     "deny": [],
     "ask": []

@@ -10,7 +10,7 @@ spec:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
         revision: HEAD
         directories:
-          - path: apps/*/overlays/*
+          - path: apps/*/overlays/!(staging)
   template:
     metadata:
       name: '{{path[3]}}-{{path[1]}}'

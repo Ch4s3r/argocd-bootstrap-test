@@ -6,6 +6,9 @@ resources:
   - applicationset.yaml
   - applicationset-pr-previews.yaml
 
+generators:
+  - secret-generator.yaml
+
 patches:
   - target:
       group: ""
@@ -13,12 +16,6 @@ patches:
       kind: ConfigMap
       name: argocd-notifications-cm
     path: notifications-cm.yaml
-  - target:
-      group: ""
-      version: v1
-      kind: Secret
-      name: argocd-notifications-secret
-    path: notifications-secret.enc.yaml
 
 # Prevent kustomize from adding hashes to generated names
 generatorOptions:
