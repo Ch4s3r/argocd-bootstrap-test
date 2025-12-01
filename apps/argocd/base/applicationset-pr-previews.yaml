@@ -8,7 +8,7 @@ spec:
   generators:
     - git:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        revision: '{{head_sha}}'
+        revision: HEAD
         directories:
           - path: 'apps/*/overlays/staging'
   template:
