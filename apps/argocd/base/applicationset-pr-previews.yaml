@@ -9,7 +9,7 @@ spec:
   generators:
   - merge:
       mergeKeys:
-        - head_ref
+        - number
       generators:
       # Generator 1: PR detection
       - pullRequest:
@@ -19,10 +19,10 @@ spec:
             tokenRef:
               secretName: argocd-notifications-secret
               key: github-token
-      # Generator 2: Git directories under staging overlays
+      # Generator 2: Git directories under staging overlays (scanned on main branch)
       - git:
           repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-          revision: "{{head_ref}}"
+          revision: HEAD
           directories:
           - path: "apps/*/overlays/staging"
   template:
