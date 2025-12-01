@@ -6,35 +6,28 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    - list:
-        elements:
-          - name: hello-world
-            namespace: staging-hello-world
-            path: apps/hello-world/overlays/staging
-          - name: argocd
-            namespace: staging-argocd
-            path: apps/argocd/overlays/staging
-    - pullRequest:
-        github:
-          owner: Ch4s3r
-          repo: argocd-bootstrap-test
-          tokenRef:
-            secretName: argocd-notifications-secret
-            key: github-token
-        requeueAfterSeconds: 60
-  selector:
-    matchExpressions:
-      - key: pullrequest
-        operator: In
-        values:
-          - "true"
+    - matrix:
+        generators:
+          - pullRequest:
+              github:
+                owner: Ch4s3r
+                repo: argocd-bootstrap-test
+                tokenRef:
+                  secretName: argocd-notifications-secret
+                  key: github-token
+              requeueAfterSeconds: 60
+          - git:
+              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
+              revision: '{{head_sha}}'
+              directories:
+                - path: 'apps/*/overlays/staging'
   template:
     metadata:
-      name: 'pr-{{number}}-{{name}}'
+      name: 'pr-{{number}}-{{path[1]}}'
       labels:
         preview: "true"
         pr-number: "{{number}}"
-        app-name: "{{name}}"
+        app-name: "{{path[1]}}"
       annotations:
         argocd.argoproj.io/sync-wave: "1"
     spec:
@@ -45,7 +38,7 @@ spec:
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
+        namespace: '{{path[3]}}-{{path[1]}}'
       syncPolicy:
         automated:
           prune: true
