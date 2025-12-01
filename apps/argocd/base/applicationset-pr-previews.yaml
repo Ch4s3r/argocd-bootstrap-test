@@ -9,9 +9,9 @@ spec:
   generators:
   - merge:
       mergeKeys:
-        - number
+        - app
       generators:
-      # Generator 1: PR detection
+      # Generator 1: PR detection with app name extracted
       - pullRequest:
           github:
             owner: Ch4s3r
@@ -19,12 +19,16 @@ spec:
             tokenRef:
               secretName: argocd-notifications-secret
               key: github-token
-      # Generator 2: Git directories under staging overlays (scanned on main branch)
+          values:
+            app: "all"
+      # Generator 2: Git directories under staging overlays
       - git:
           repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
           revision: HEAD
           directories:
           - path: "apps/*/overlays/staging"
+          values:
+            app: "all"
   template:
     metadata:
       name: "{{.path.basename}}-pr-{{number}}"
