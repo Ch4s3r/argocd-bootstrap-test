@@ -27,7 +27,7 @@ spec:
       source:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
         targetRevision: '{{head_sha}}'
-        path: 'apps'
+        path: 'apps/*/overlays/staging'
       destination:
         server: https://kubernetes.default.svc
         namespace: 'staging'
