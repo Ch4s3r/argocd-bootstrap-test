@@ -18,9 +18,14 @@ spec:
               requeueAfterSeconds: 60
           - git:
               repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-              revision: '{{head_sha}}'
+              revision: '{{base_branch}}'
               directories:
                 - path: 'apps/*/overlays/staging'
+              revisions:
+                - revision: '{{head_sha}}'
+                  files:
+                    - glob: 'apps/{{path[1]}}/base/**'
+                    - glob: 'apps/{{path[1]}}/overlays/staging/**'
   template:
     metadata:
       name: 'pr-{{number}}-{{path[1]}}'
