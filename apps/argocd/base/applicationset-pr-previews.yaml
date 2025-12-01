@@ -13,9 +13,9 @@ spec:
               github:
                 owner: Ch4s3r
                 repo: argocd-bootstrap-test
-                # tokenRef:
-                #   secretName: github-token
-                #   key: token
+                tokenRef:
+                  secretName: argocd-notifications-secret
+                  key: github-token
               requeueAfterSeconds: 60
           - git:
               repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
