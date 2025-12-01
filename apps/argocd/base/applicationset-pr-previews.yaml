@@ -1,22 +1,31 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: pr-previews
+  name: staging-pr-changed-apps
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
+  goTemplate: true
   generators:
-    - pullRequest:
-        github:
-          owner: Ch4s3r
-          repo: argocd-bootstrap-test
-          tokenRef:
-            secretName: argocd-notifications-secret
-            key: github-token
-        requeueAfterSeconds: 60
+  - matrix:
+      generators:
+      # Generator 1: PR detection
+      - pullRequest:
+          github:
+            owner: Ch4s3r
+            repo: argocd-bootstrap-test
+            tokenRef:
+              secretName: argocd-notifications-secret
+              key: github-token
+      # Generator 2: Only files changed in PR under apps/*/overlays/staging
+      - git:
+          repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
+          revision: "{{head_ref}}"  # Use PR branch
+          files:
+          - path: "apps/*/overlays/staging/**"
   template:
     metadata:
-      name: 'pr-{{number}}'
+      name: "{{path.basenameNormalized}}-pr-{{number}}"
       labels:
         preview: "true"
         pr-number: "{{number}}"
@@ -25,12 +34,12 @@ spec:
     spec:
       project: staging
       source:
-        repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        targetRevision: HEAD
-        path: 'apps/*/overlays/staging'
+        repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
+        targetRevision: "{{head_ref}}"
+        path: "{{index .path.segments 1}}/overlays/staging"  # Extract app name from path
       destination:
         server: https://kubernetes.default.svc
-        namespace: 'staging'
+        namespace: "staging"
       syncPolicy:
         automated:
           prune: true
