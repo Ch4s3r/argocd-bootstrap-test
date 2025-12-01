@@ -16,22 +16,21 @@ spec:
         requeueAfterSeconds: 60
   template:
     metadata:
-      name: 'pr-{{number}}-{{path[1]}}'
+      name: 'pr-{{number}}'
       labels:
         preview: "true"
         pr-number: "{{number}}"
-        app-name: "{{path[1]}}"
       annotations:
         argocd.argoproj.io/sync-wave: "1"
     spec:
       project: staging
       source:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        targetRevision: HEAD
-        path: '{{path}}'
+        targetRevision: '{{head_sha}}'
+        path: 'apps'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path[3]}}-{{path[1]}}'
+        namespace: 'default'
       syncPolicy:
         automated:
           prune: true
