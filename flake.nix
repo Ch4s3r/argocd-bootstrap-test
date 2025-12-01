@@ -39,7 +39,7 @@
             cp -r apps/argocd "$TMPDIR/"
             yq eval '.namespace = "prod-argocd"' -i "$TMPDIR/argocd/overlays/prod/kustomization.yaml"
             
-            kubectl kustomize --enable-helm "$TMPDIR/argocd/overlays/prod" | kubectl apply -f -
+            kustomize build --enable-alpha-plugins --enable-exec "$TMPDIR/argocd/overlays/prod" | kubectl apply -f -
             
             echo "Waiting for ArgoCD server deployment to be created..."
             kubectl wait --for=condition=available --timeout=300s deployment -l app.kubernetes.io/name=argocd-server -n prod-argocd || true
@@ -88,6 +88,7 @@
             git
             curl
             kubectl
+            kustomize-sops
             kubernetes-helm
             kubernetes-helmPlugins.helm-diff
             kubernetes-helmPlugins.helm-secrets
