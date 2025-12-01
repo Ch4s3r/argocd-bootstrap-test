@@ -18,7 +18,7 @@ spec:
               requeueAfterSeconds: 60
           - git:
               repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-              revision: '{{head_sha}}'
+              revision: HEAD
               directories:
                 - path: 'apps/*/overlays/staging'
   template:
@@ -34,7 +34,7 @@ spec:
       project: staging
       source:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        targetRevision: '{{head_sha}}'
+        targetRevision: HEAD
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
