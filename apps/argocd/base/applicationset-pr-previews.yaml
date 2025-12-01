@@ -6,20 +6,17 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    - pullRequest:
-        github:
-          owner: Ch4s3r
-          repo: argocd-bootstrap-test
-          tokenRef:
-            secretName: argocd-notifications-secret
-            key: github-token
-        requeueAfterSeconds: 60
+    - git:
+        repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
+        revision: '{{head_sha}}'
+        directories:
+          - path: 'apps/*/overlays/staging'
   template:
     metadata:
-      name: 'pr-{{number}}-{{path[1]}}'
+      name: 'pr-{{branch | replace:"refs/pull/":""  | replace:"/merge":""}}-{{path[1]}}'
       labels:
         preview: "true"
-        pr-number: "{{number}}"
+        pr-branch: "{{branch}}"
         app-name: "{{path[1]}}"
       annotations:
         argocd.argoproj.io/sync-wave: "1"
