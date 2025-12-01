@@ -30,7 +30,7 @@ spec:
         path: 'apps'
       destination:
         server: https://kubernetes.default.svc
-        namespace: 'default'
+        namespace: 'staging'
       syncPolicy:
         automated:
           prune: true
