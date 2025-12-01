@@ -7,7 +7,9 @@ metadata:
 spec:
   goTemplate: true
   generators:
-  - matrix:
+  - merge:
+      mergeKeys:
+        - number
       generators:
       # Generator 1: PR detection
       - pullRequest:
@@ -17,15 +19,19 @@ spec:
             tokenRef:
               secretName: argocd-notifications-secret
               key: github-token
-      # Generator 2: Only files changed in PR under apps/*/overlays/staging
+          values:
+            number: "{{number}}"
+      # Generator 2: Git directories under staging overlays
       - git:
           repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-          revision: HEAD  # Use PR branch
-          files:
-          - path: "apps/*/overlays/staging/**"
+          revision: HEAD
+          directories:
+          - path: "apps/*/overlays/staging"
+          values:
+            number: "1"  # dummy value for merge key
   template:
     metadata:
-      name: "{{path.basenameNormalized}}-pr-{{number}}"
+      name: "{{.head_ref}}-pr-{{number}}"
       labels:
         preview: "true"
         pr-number: "{{number}}"
@@ -35,8 +41,8 @@ spec:
       project: staging
       source:
         repoURL: https://github.com/Ch4s3r/argocd-bootstrap-test.git
-        targetRevision: HEAD
-        path: "apps/{{index .path.segments 1}}/overlays/staging"  # Extract app name from path
+        targetRevision: "{{head_ref}}"
+        path: "{{.path}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: "staging"
