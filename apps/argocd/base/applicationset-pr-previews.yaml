@@ -6,16 +6,27 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
-    - git:
-        repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        revision: HEAD
-        directories:
-          - path: 'apps/*/overlays/staging'
+    - matrix:
+        generators:
+          - pullRequest:
+              github:
+                owner: Ch4s3r
+                repo: argocd-bootstrap-test
+                tokenRef:
+                  secretName: argocd-notifications-secret
+                  key: github-token
+              requeueAfterSeconds: 60
+          - git:
+              repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
+              revision: '{{head_sha}}'
+              directories:
+                - path: 'apps/*/overlays/staging'
   template:
     metadata:
-      name: '{{path[1]}}-staging'
+      name: 'pr-{{number}}-{{path[1]}}'
       labels:
         preview: "true"
+        pr-number: "{{number}}"
         app-name: "{{path[1]}}"
       annotations:
         argocd.argoproj.io/sync-wave: "1"
@@ -25,10 +36,11 @@ spec:
       project: staging
       source:
         repoURL: 'https://github.com/Ch4s3r/argocd-bootstrap-test'
-        targetRevision: HEAD
+        targetRevision: '{{head_sha}}'
         path: '{{path}}'
         kustomize:
           namespace: '{{path[3]}}-{{path[1]}}'
+          namePrefix: 'pr-{{number}}-'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path[3]}}-{{path[1]}}'
@@ -45,5 +57,9 @@ spec:
             factor: 2
             maxDuration: 3m
       info:
+        - name: 'PR'
+          value: 'https://github.com/Ch4s3r/argocd-bootstrap-test/pull/{{number}}'
+        - name: 'Branch'
+          value: '{{branch}}'
         - name: 'Application'
           value: '{{path[1]}}'
