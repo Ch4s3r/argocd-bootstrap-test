@@ -9,7 +9,7 @@ generators:
 
 images:
   - name: ghcr.io/stefanprodan/podinfo
-    newTag: 6.9.3
+    newTag: 6.9.4
 
 replacements:
   # Replace the host with the ingress name + base domain
