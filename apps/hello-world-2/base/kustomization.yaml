@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
   - name: podinfo
     repo: https://stefanprodan.github.io/podinfo
-    version: 6.9.3
+    version: 6.9.4
     releaseName: podinfo
     includeCRDs: false
     valuesFile: values.yaml
