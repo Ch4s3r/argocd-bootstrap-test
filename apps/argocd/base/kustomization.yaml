@@ -32,4 +32,4 @@ helmCharts:
 
 images:
   - name: viaductoss/ksops
-    newTag: v4.3.3
+    newTag: v4.5.1
